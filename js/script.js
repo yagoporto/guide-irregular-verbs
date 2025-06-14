@@ -47,15 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const {data: verbs, error} = await supabaseInstance
             .from('verbs')
             .select('*')
-            .ilike('verbs', `%${verb}%`); // Busca por verbos que contenham a string digitada
+            .eq('verbs', verb); // Busca por verbos que contenham a string digitada
 
             if (error) {
-                console.error('Erro ao buscar verbos:', error.message);
-                alert('Ocorreu um erro ao buscar os verbos. Por favor, tente novamente mais tarde.');
+                console.error('Error searching for verbs:', error.message);
+                alert('An error occurred while fetching verbs. Please try again later.');
                 return; // Sai da função se houver um erro
             }
 
-            console.log("Verbos encontrados:", verbs);
+            console.log("Found verbs:", verbs);
 
             displayVerbs(verbs);
     }
@@ -64,21 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
     async function displayVerbs(verbs) {
         container_dados.innerHTML = ''; // Limpa o conteúdo anterior
         if (verbs.length === 0) {
-            container_dados.innerHTML = '<p>Nenhum verbo encontrado.</p>';
+            container_dados.innerHTML = '<p>No verb found.</p>';
             return;
         }
-        let htmlContent = '<ul>';
+        let htmlContent = '<ul class="w3-ul">';
         verbs.forEach(verbs => {
-            htmlContent += `<br><p>${verbs.verbs} &#11166; ${verbs.irregular_verbs} <br> ${verbs.phrase}</p>`;
+            htmlContent += `<br><li  style="font-size: 20px;" >${verbs.verbs} | ${verbs.irregular_verbs} <br> ${verbs.phrase}</li>`;
         });
         htmlContent += '</ul>';
         container_dados.innerHTML = htmlContent; // Atualiza o conteúdo do container
         console.log("Verbos exibidos:", verbs);
-        if (verbs.length > 0) {
-            alert(`Foram encontrados ${verbs.length} verbos.`);
-        } else {
-            alert('Nenhum verbo encontrado.');
-        }
     }
 
 

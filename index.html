@@ -4,28 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Irregular Verbs</title>
-    
+    <link rel="stylesheet" href="./css/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
-    <section id="header">
-        <div>
-            <h1>Guide for Irregular Verbs</h1>
-        </div>
+<body class="w3-light-grey" style="background: #020024;
+background: -webkit-linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+background: -moz-linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#020024, endColorstr=#00D4FF, GradientType=1); font-family: Roboto;">
+    <section id="header" class="w3-container w3-padding-32 w3-center" style="color: white;">
+        <h1>Guide for Irregular Verbs</h1>
     </section>
     
-    <section id="pesquisa">
-        <form action="" id="searchForm">
-            <label for="verb">Enter an irregular verb:</label>
-            <input type="text" id="verb" name="verb" placeholder="e.g., go, be, have" required>
-            <button id="submit" type="submit">Search</button>
-            <button id="searchAll" type="button">Search All</button>
-        </form>
-    </section>
-
-    <section id="resultado">
-        <div id="verbListContainer">
+    <section id="pesquisa" class="w3-container w3-center w3-margin-top w3-margin-bottom">
+        <div class="w3-card-4 w3-white w3-round-large w3-padding-32" style="max-width: 600px; margin: auto; padding: 10px;">
+            <form action="" id="searchForm">
+                <label for="verb" class="w3-container w3-padding w3-round w3-margin-bottom w3-block w3-center">Enter an verb:</label>
+                <input type="text" id="verb" name="verb" placeholder="e.g., go, be, have" required class="w3-input w3-border w3-round w3-margin-bottom" style="width: 100%;">
+                
+                <div class="w3-bar">
+                    <button id="submit" type="submit" class="w3-button w3-blue w3-round w3-bar-item w3-wide" style="margin-right: 5px;">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                    <button id="searchAll" type="button" class="w3-button w3-teal w3-round w3-bar-item w3-wide">
+                        <i class="fa fa-list-alt"></i> Search All
+                    </button>
+                </div>
+            </form>
+            <div id="verbListContainer" style="max-width: 600px; margin: auto; text-align: left; text-size: 20px;">
+                <p class="w3-text-grey" style="text-align: center;">Os resultados da busca aparecerão aqui.</p>
+            </div>
         </div>
-    </section>    
+
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./js/script.js"></script>
