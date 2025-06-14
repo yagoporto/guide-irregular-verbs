@@ -6,55 +6,86 @@ const supabaseInstance = createClient(supabaseUrl, supabasekey);
 
 
 //Mapeamento dos botões e containers
-const buttom_submit = document.getElementById("submit");
-const buttom_seachALL = document.getElementById("searchAll");
-const containerDados = document.getElementById("verbListContainer");
+document.addEventListener('DOMContentLoaded', () => {
+    const buttom_submit = document.getElementById("submit");
+    console.log("Mapeamento buttom_submit:", buttom_submit); // Adicione estes logs para depurar
+    const buttom_seachALL = document.getElementById("searchAll");
+    console.log("Mapeamento buttom_seachALL:", buttom_seachALL); // Adicione estes logs para depurar
+    const container_dados = document.getElementById("verbListContainer");
+    console.log("Mapeamento container_dados:", container_dados); // Adicione estes logs para depurar
+    const search_form = document.getElementById("searchForm");
+    console.log("Mapeamento search_form:", search_form); // Adicione estes logs para depurar
 
-//função para buscar todos os verbos do banco de dados
-async function searchAllVerbs(){
-    let verb = document.getElementById("verb").value;
-    const {data: verbs, error} = await supabaseInstance
-        .from('verbs')
-        .select('*')
 
-    if (error) {
-        console.error('Erro ao buscar verbos:', error.message);
-        alert('Ocorreu um erro ao buscar os verbos. Por favor, tente novamente mais tarde.');
-        return; // Sai da função se houver um erro
+    //função para buscar todos os verbos do banco de dados
+    async function searchAllVerbs(){
+        let verb = document.getElementById("verb").value;
+        const {data: verbs, error} = await supabaseInstance
+            .from('verbs')
+            .select('*')
+
+        if (error) {
+            console.error('Erro ao buscar verbos:', error.message);
+            alert('Ocorreu um erro ao buscar os verbos. Por favor, tente novamente mais tarde.');
+            return; // Sai da função se houver um erro
+        }
+        console.log("Verbos encontrados:", verbs);
+
+        displayVerbs(verbs); // Chama a função para exibir os verbos encontrados
     }
-    console.log("Verbos encontrados:", verbs);
 
-    displayVerbs(verbs); // Chama a função para exibir os verbos encontrados
-}
+    async function seachEspecificVerb(){
+        container_dados.innerHTML = '';// limpar conteudo anterios
 
-async function seachEspecificVerb(){
-    containerDados.innerHTML = '';// limpar conteudo anterios
-    if (verb.trim() === ''){
-        alert('Please enter a verb to search.');
+        let verb = document.getElementById("verb").value;
+        //verifica se o campo de verbos esta vazio e retorno um alerta
+        if (verb.trim() === ''){
+            alert('Please enter a verb to search.');
+            return; // Sai da função se o campo estiver vazio
+        }
+
+        const {data: verbs, error} = await supabaseInstance
+            .from('verbs')
+            .select('*')
+            .ilike('verbs', `%${verb}%`); // Busca por verbos que contenham a string digitada
+
+            if (error) {
+                console.error('Erro ao buscar verbos:', error.message);
+                alert('Ocorreu um erro ao buscar os verbos. Por favor, tente novamente mais tarde.');
+                return; // Sai da função se houver um erro
+            }
+
+            console.log("Verbos encontrados:", verbs);
+
+            displayVerbs(verbs);
     }
-}
 
-//função para exbibir os dados encontrados no banco de dados
-async function displayVerbs(verbs) {
-    containerDados.innerHTML = ''; // Limpa o conteúdo anterior
-    if (verbs.length === 0) {
-        containerDados.innerHTML = '<p>Nenhum verbo encontrado.</p>';
-        return;
+    //função para exbibir os dados encontrados no banco de dados
+    async function displayVerbs(verbs) {
+        container_dados.innerHTML = ''; // Limpa o conteúdo anterior
+        if (verbs.length === 0) {
+            container_dados.innerHTML = '<p>Nenhum verbo encontrado.</p>';
+            return;
+        }
+        let htmlContent = '<ul>';
+        verbs.forEach(verbs => {
+            htmlContent += `<br><p>${verbs.verbs} &#11166; ${verbs.irregular_verbs} <br> ${verbs.phrase}</p>`;
+        });
+        htmlContent += '</ul>';
+        container_dados.innerHTML = htmlContent; // Atualiza o conteúdo do container
+        console.log("Verbos exibidos:", verbs);
+        if (verbs.length > 0) {
+            alert(`Foram encontrados ${verbs.length} verbos.`);
+        } else {
+            alert('Nenhum verbo encontrado.');
+        }
     }
-    let htmlContent = '<ul>';
-    verbs.forEach(verbs => {
-        htmlContent += `<br><p>${verbs.verbs} &#11166; ${verbs.irregular_verbs} <br> ${verbs.phrase}</p>`;
+
+
+    buttom_seachALL.addEventListener('click', searchAllVerbs);
+    search_form.addEventListener('submit', (event) => {
+        event.preventDefault(); // IMPEDE O RECARREGAMENTO DA PÁGINA
+        seachEspecificVerb(); // Chama a função de busca específica
     });
-    htmlContent += '</ul>';
-    containerDados.innerHTML = htmlContent; // Atualiza o conteúdo do container
-    console.log("Verbos exibidos:", verbs);
-    if (verbs.length > 0) {
-        alert(`Foram encontrados ${verbs.length} verbos.`);
-    } else {
-        alert('Nenhum verbo encontrado.');
-    }
-}
 
-
-buttom_seachALL.addEventListener('click', searchAllVerbs);
-buttom_submit.addEventListener('click', seachEspecificVerb);
+});
