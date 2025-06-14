@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irregular Verbs</title>
+    
+</head>
+<body>
+    <section id="header">
+        <div>
+            <h1>Guide for Irregular Verbs</h1>
+        </div>
+    </section>
+    
+    <section id="pesquisa">
+        <form action="">
+            <label for="verb">Enter an irregular verb:</label>
+            <input type="text" id="verb" name="verb" placeholder="e.g., go, be, have" required>
+            <button id="submit" type="submit">Search</button>
+            <button id="searchAll" type="button">Search All</button>
+        </form>
+    </section>
+
+    <section id="resultado">
+        <div id="verbListContainer">
+        </div>
+    </section>    
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>
