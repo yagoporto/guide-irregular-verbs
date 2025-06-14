@@ -37,7 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     async function seachEspecificVerb(){
         container_dados.innerHTML = '';// limpar conteudo anterios
 
-        let verb = document.getElementById("verb").value.lowerCase();
+        let verb = document.getElementById("verb").value;
+        verb = verb.toLowerCase(); // Converte o verbo para minúsculas para a busca
+        console.log(verb);
         //verifica se o campo de verbos esta vazio e retorno um alerta
         if (verb.trim() === ''){
             alert('Please enter a verb to search.');
